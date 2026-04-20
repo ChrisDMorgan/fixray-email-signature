@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fixray Email Signature Generator — V3 (Ticket Stub)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:#08080D; color:#E8E6F0;
+    padding:48px 32px 80px;
+    min-height:100vh;
+  }
+  .wrap { max-width:1100px; margin:0 auto; }
+  h1 { font-size:24px; font-weight:700; color:#fff; letter-spacing:-0.5px; margin-bottom:4px; }
+  .sub { font-size:13px; color:#6B7280; margin-bottom:8px; }
+  .tag {
+    display:inline-block; font-size:10px; font-weight:700; color:#A78BFA;
+    background:rgba(124,58,237,0.12); border:1px solid rgba(124,58,237,0.3);
+    padding:2px 8px; border-radius:4px; letter-spacing:0.8px;
+    margin-bottom:28px;
+  }
+
+  .grid {
+    display:grid; grid-template-columns: 360px 1fr; gap:24px;
+  }
+  @media (max-width: 840px) { .grid { grid-template-columns: 1fr; } }
+
+  .panel {
+    background:#111118;
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:12px;
+    padding:24px;
+  }
+  .panel-title {
+    font-size:11px; font-weight:600; color:#fff;
+    text-transform:uppercase; letter-spacing:0.6px;
+    margin-bottom:16px;
+  }
+
+  .field { margin-bottom:16px; }
+  .field:last-child { margin-bottom:0; }
+  .field label {
+    display:block; font-size:11px; font-weight:500;
+    color:#9CA3AF; margin-bottom:6px;
+    text-transform:uppercase; letter-spacing:0.4px;
+  }
+  .field input {
+    width:100%; padding:10px 12px;
+    background:#08080D;
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:8px;
+    color:#fff; font-size:14px; font-family:inherit;
+    transition:border-color 0.15s;
+  }
+  .field input:focus { outline:none; border-color:#7C3AED; }
+  .field input::placeholder { color:#4B5563; }
+
+  .preview-wrap { display:flex; flex-direction:column; gap:16px; }
+  .preview-stage {
+    background:#FAFAFE;
+    border-radius:12px;
+    padding:40px 32px;
+    min-height:200px;
+    display:flex; align-items:center;
+  }
+  .preview-stage-dark {
+    background:#0D0D14;
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:12px;
+    padding:40px 32px;
+    min-height:200px;
+    display:flex; align-items:center;
+  }
+  .stage-label {
+    font-size:10px; font-weight:600; color:#6B7280;
+    text-transform:uppercase; letter-spacing:0.6px;
+    margin-bottom:8px;
+  }
+
+  .actions { display:flex; gap:10px; flex-wrap:wrap; }
+  button {
+    font-family:inherit; font-size:13px; font-weight:500;
+    padding:10px 16px; border-radius:8px;
+    border:1px solid rgba(255,255,255,0.08);
+    background:#1a1a24; color:#E8E6F0;
+    cursor:pointer; transition:all 0.15s;
+  }
+  button:hover { background:#22222e; border-color:rgba(255,255,255,0.14); }
+  button.primary { background:#7C3AED; border-color:#7C3AED; color:#fff; }
+  button.primary:hover { background:#6D28D9; border-color:#6D28D9; }
+  button.copied { background:#10B981; border-color:#10B981; color:#fff; }
+
+  details {
+    background:#0D0D14;
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:8px;
+    padding:12px 14px; font-size:12px;
+  }
+  details summary { cursor:pointer; color:#9CA3AF; font-weight:500; user-select:none; }
+  details[open] summary { margin-bottom:10px; }
+  details pre {
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:11px; color:#A78BFA;
+    background:#08080D;
+    padding:12px; border-radius:6px;
+    overflow-x:auto; white-space:pre-wrap; word-break:break-all;
+    line-height:1.5;
+  }
+
+  .instructions {
+    background:#0D0D14;
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:12px;
+    padding:20px 24px; margin-top:24px;
+    font-size:12px; color:#9CA3AF; line-height:1.7;
+  }
+  .instructions h3 {
+    font-size:11px; font-weight:600; color:#fff;
+    text-transform:uppercase; letter-spacing:0.6px;
+    margin-bottom:10px;
+  }
+  .instructions ol { padding-left:18px; }
+  .instructions li { margin-bottom:4px; }
+  .instructions strong { color:#E8E6F0; font-weight:500; }
+  .instructions .note {
+    margin-top:14px; padding-top:12px;
+    border-top:1px dashed rgba(255,255,255,0.06);
+    color:#6B7280;
+  }
+
+  .footer { font-size:10px; color:#333; text-align:center; margin-top:48px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Fixray Email Signature Generator</h1>
+<p class="sub">Fill in your details, preview, copy — paste into Gmail. Gmail-safe HTML: tables + inline styles + data-URI mark.</p>
+<span class="tag">V3 · PRIORITY STRIPE · TICKET STUB</span>
+
+<div class="grid">
+
+  <div class="panel">
+    <div class="panel-title">Your Details</div>
+    <div class="field">
+      <label for="name">Name</label>
+      <input id="name" type="text" placeholder="Chris Morgan" value="Chris Morgan">
+    </div>
+    <div class="field">
+      <label for="title">Title</label>
+      <input id="title" type="text" placeholder="Founder &amp; CEO" value="Founder &amp; CEO">
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="chris@fixray.app" value="chris@fixray.app">
+    </div>
+    <div class="field">
+      <label for="phone">Phone</label>
+      <input id="phone" type="tel" placeholder="+44 20 7123 4567" value="+44 20 7123 4567">
+    </div>
+    <div class="field">
+      <label for="category">Ticket category (slug after the /)</label>
+      <input id="category" type="text" placeholder="founder" value="founder">
+    </div>
+    <div class="field">
+      <label for="ticketid">Ticket ID</label>
+      <input id="ticketid" type="text" placeholder="FIX-0001" value="FIX-0001">
+    </div>
+  </div>
+
+  <div class="preview-wrap">
+    <div>
+      <div class="stage-label">Preview — light background</div>
+      <div class="preview-stage" id="preview-light"></div>
+    </div>
+    <div>
+      <div class="stage-label">Preview — dark background</div>
+      <div class="preview-stage-dark" id="preview-dark"></div>
+    </div>
+
+    <div class="actions">
+      <button class="primary" id="copy-btn">Copy signature</button>
+      <button id="copy-html-btn">Copy HTML source</button>
+    </div>
+
+    <details>
+      <summary>View HTML source</summary>
+      <pre id="html-source"></pre>
+    </details>
+  </div>
+
+</div>
+
+<div class="instructions">
+  <h3>How to install in Gmail</h3>
+  <ol>
+    <li>Click <strong>Copy signature</strong> above.</li>
+    <li>In Gmail, click the <strong>⚙ gear icon</strong> (top right) → <strong>See all settings</strong>.</li>
+    <li>Stay on the <strong>General</strong> tab → scroll to <strong>Signature</strong>.</li>
+    <li>Click <strong>+ Create new</strong> (or select an existing signature to replace).</li>
+    <li>Click inside the signature editor box and paste (<strong>⌘V / Ctrl+V</strong>).</li>
+    <li>Under <strong>Signature defaults</strong>, set this signature for <em>For new emails use</em> and <em>On reply/forward use</em>.</li>
+    <li>Scroll to the bottom → <strong>Save Changes</strong>.</li>
+  </ol>
+  <div class="note">
+    <strong>Mobile:</strong> Gmail's iOS/Android apps have their own signature field (Settings → your account → Signature settings). They don't sync with the web signature and only accept plain text — so use a short plain-text fallback there.<br><br>
+    <strong>Testing:</strong> send yourself a test from web Gmail to a different address before rolling out to the team. Check it lands correctly in (1) Gmail web inbox, (2) Gmail mobile preview.
+  </div>
+</div>
+
+<div class="footer">Fixray · V3 (2026-04-20)</div>
+
+</div>
+
+<script>
+// White Fixray mark, 64x64 PNG, base64 encoded. Sits on the purple priority stripe.
+const WHITE_MARK_B64 = 'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFWUlEQVR42u2a24tVVRzHP999xtHRmMpJTS3LSylqZZjdKAqVSkjNkCS6QPQSRP9A770GvQXdqEhIKYg0GcqERLtYGQxpiZZa1iTpQ2Nq08z59uBv52pzZppxbmfOnB9s9jlrr732+n5/173WhrrUpS51qUtd6lKXUS62ZVtjEXhmu5QSMVaBT7F9Sc2TEMCz5P/Vtp+z/Yvtw0FEdbnDYEyoAvDFtl+wfdzn5UjVEZBO5EImZbtUGOMm2y/Z/j0BfsD2s7ZbqsoF8onYnmx7cl8nFxosFdrusv1GovGy7S9sP2X74qoLgrkZBvgf45jcm3kWgYf2V9l+23a77S7bHbZbbW+w3Zj0bag2v8/ivDAx1YXptV6AN9leb/td28ds/xlBbpPt+3pzkf5KwzBwUQa6k99FF8kkdQPdkcbWAOuBG4BJwAngfeBNSbtS4EA57qWaCQAoaiizjaRyAJ8KrAvw84EJQDuwEdgoqa1I2ECBDzcBKfBMUlcAuhJYC6wC5gAl4CiwDdgs6XDqMjlhgzmh4SRAwGlJZdvzgfuB5cDMuP49sBV4T9LxxMwdwIdEGoYhECqObmCJ7QeBFcBlERPagC3ANkl/DKZ/jwgB4acKzdl2rr0MeCbOZeAL4ANgh6Szww180AnIgYe52raj7aXAw4VAuBNoBXZL8kgBHzQCKgCfCNwa/j0bmJ50f17S1sFOZSNCQAXgzcBtwB3AVUAT8BtwCLgzIvz+uK8kqWskgfeUn/tc3yfm2xLAbwZmAOOAk8BXYeoXAQfj9sWS9kcqLFMF0jAA4NOBW4AlwNQIbr8CXwI7JZ3MFyrSYaptfaGhL8AlOQE+C1gGLAIujW5HgD3AHkkd+ctJpL4yVSwN/QA+B1gKzAOaQ5sHQ+PfSPoryf2O4GbbjCoCUuABZm6Y+WxgYmj1O+BrYF8eyPKqLTFzJTUBxbbkDa6vcehfZQwpAQF8XGh6cRLYzka5ulfS0Qr3FSN6Tkxn0tYZILqrJS40FLQ/HrgGWBClKkBnpLM24CegHJE/S7Vd4ZwF0BnJI2baPh3PrXSvehivBLRLOjXoaTA3+QB/bwDPJzcuJtsVk5gU5yzaG+J//jsrtBEZ4oEYsxU4BYyPPqXCOKUK4ypc7xiwWtLJfM5D4QKlAFsO8H9H2/hCX/VwZIXDBR/PeujX25H3H5I1P6WBL6q55UBLXG8D9gcBvZl7Ty5QDpfaEe0rInOUCuT0NlauqGOSTg2m9v/zkISEJmAlcEVYw25J3w6gZJ4LHIi/10o6VJVpMMBL0hnbraGtecBK282SPk0WM/uigdwCGpO2xvxd4AIKpKFPgwkJnUFCF7AQuN32REnbU2v5H83ntYSLIGyXq+VdIOuhDpCksqQPgb2h8WW119gu5X2oAckqBobz5a8kfQLsjpx+HfCQ7Qm1QkLWa4Q8bw2fAR9FWpwPPBpxwcVNjpoiICEhk7Q3Fi/PxILHE7anxCpvVrMEBAnlIGEfsBnoAC4HnrQ9azST0OdJJyT8ALzFuS2rliBhwWgloV8TTkg4BrwW9XlzuMPS0UhCvyebkHACeCUWPZuAx2zfnZCgmiSgQEIH8HK8MzQCG2yvrpYiZ8gISEhQ7Oq8Cnwe4621/UiyQJLVJAGFOqFb0uvA9qB0dQwV5k0dy23EqI7XpVhJyVd6Cdp3nCNddv85nA4dmfU=';
+const WHITE_MARK_SRC = 'data:image/png;base64,' + WHITE_MARK_B64;
+
+const escapeHtml = (s) => String(s ?? '')
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
+
+const telHref = (phone) => String(phone ?? '').replace(/[^+\d]/g, '');
+
+// Font stacks — no external fonts, Gmail-safe system stacks.
+const SANS = `-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif`;
+const MONO = `ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace`;
+
+function buildSignature({ name, title, email, phone, category, ticketid }) {
+  const nameE    = escapeHtml(name);
+  const titleE   = escapeHtml(title);
+  const emailE   = escapeHtml(email);
+  const phoneE   = escapeHtml(phone);
+  const phoneH   = escapeHtml(telHref(phone));
+  const catE     = escapeHtml(category || 'founder');
+  const ticketE  = escapeHtml(ticketid || 'FIX-0001');
+
+  const titleLine = titleE
+    ? `${titleE} &middot; Fixray`
+    : `Fixray`;
+
+  const emailLink = emailE
+    ? `<a href="mailto:${emailE}" style="color:#7C3AED;text-decoration:none;font-weight:500;">${emailE}</a>`
+    : '';
+  const phoneLink = phoneE
+    ? `<a href="tel:${phoneH}" style="color:#6B7280;text-decoration:none;">${phoneE}</a>`
+    : '';
+  const contactSep = (emailE && phoneE) ? ' &nbsp;&middot;&nbsp; ' : '';
+  const contactLine = emailLink + contactSep + phoneLink;
+
+  // Built as a single outer table, two columns. All styles inline. No classes.
+  // cellpadding/cellspacing/border attributes set for Gmail reliability.
+  return `<table cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse:collapse;border-spacing:0;max-width:540px;font-family:${SANS};">
+  <tr>
+    <td width="44" valign="top" align="center" bgcolor="#7C3AED" style="width:44px;background-color:#7C3AED;padding:14px 0;border-top-left-radius:8px;border-bottom-left-radius:8px;">
+      <img src="${WHITE_MARK_SRC}" width="26" height="26" alt="Fixray" style="display:block;margin:0 auto;border:0;outline:0;text-decoration:none;-ms-interpolation-mode:bicubic;">
+    </td>
+    <td valign="top" bgcolor="#FFFFFF" style="background-color:#FFFFFF;padding:14px 18px;border-top:1px solid #E5E7EB;border-right:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;border-top-right-radius:8px;border-bottom-right-radius:8px;font-family:${SANS};">
+      <div style="font-family:${MONO};font-size:10px;color:#6B7280;letter-spacing:0.4px;margin-bottom:8px;line-height:1.4;">
+        <span style="color:#6B7280;">${ticketE}</span>
+        &nbsp;&nbsp;
+        <span style="display:inline-block;padding:2px 7px;border-radius:10px;background-color:#E6F9F1;color:#10B981;font-family:${MONO};font-size:9px;font-weight:700;letter-spacing:0.5px;">&#9679; OPEN</span>
+      </div>
+      <div style="font-family:${SANS};font-size:16px;font-weight:600;color:#111827;letter-spacing:-0.2px;line-height:1.3;margin-bottom:2px;">${nameE}</div>
+      <div style="font-family:${SANS};font-size:13px;color:#6B7280;line-height:1.45;margin-bottom:10px;">${titleLine}</div>
+      <div style="font-family:${SANS};font-size:13px;color:#6B7280;line-height:1.6;margin-bottom:10px;">${contactLine}</div>
+      <div style="border-top:1px dashed #D1D5DB;padding-top:8px;font-family:${MONO};font-size:10.5px;letter-spacing:0.3px;color:#6B7280;line-height:1.5;">
+        <span style="color:#9CA3AF;">category</span> <span style="color:#374151;font-weight:500;">/${catE}</span>
+        &nbsp;&nbsp;
+        <span style="color:#9CA3AF;">site</span> <a href="https://fixray.app" style="color:#7C3AED;text-decoration:none;font-weight:500;">fixray.app</a>
+      </div>
+    </td>
+  </tr>
+</table>`;
+}
+
+function getValues() {
+  return {
+    name:     document.getElementById('name').value.trim(),
+    title:    document.getElementById('title').value.trim(),
+    email:    document.getElementById('email').value.trim(),
+    phone:    document.getElementById('phone').value.trim(),
+    category: document.getElementById('category').value.trim(),
+    ticketid: document.getElementById('ticketid').value.trim(),
+  };
+}
+
+function render() {
+  const html = buildSignature(getValues());
+  document.getElementById('preview-light').innerHTML = html;
+  document.getElementById('preview-dark').innerHTML  = html;
+  document.getElementById('html-source').textContent = html;
+}
+
+async function copySignature() {
+  const btn  = document.getElementById('copy-btn');
+  const html = buildSignature(getValues());
+  const plain = stripHtml(html);
+  try {
+    if (navigator.clipboard && window.ClipboardItem) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html':  new Blob([html],  { type: 'text/html'  }),
+          'text/plain': new Blob([plain], { type: 'text/plain' }),
+        }),
+      ]);
+    } else {
+      await navigator.clipboard.writeText(html);
+    }
+    flash(btn, 'Copied \u2713');
+  } catch (err) {
+    console.error(err);
+    flash(btn, 'Copy failed');
+  }
+}
+
+async function copyHtmlSource() {
+  const btn  = document.getElementById('copy-html-btn');
+  const html = buildSignature(getValues());
+  try {
+    await navigator.clipboard.writeText(html);
+    flash(btn, 'HTML copied \u2713');
+  } catch (err) {
+    console.error(err);
+    flash(btn, 'Copy failed');
+  }
+}
+
+function stripHtml(html) {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  return div.innerText;
+}
+
+function flash(btn, label) {
+  const original = btn.textContent;
+  btn.textContent = label;
+  btn.classList.add('copied');
+  setTimeout(() => {
+    btn.textContent = original;
+    btn.classList.remove('copied');
+  }, 1600);
+}
+
+['name','title','email','phone','category','ticketid'].forEach((id) => {
+  document.getElementById(id).addEventListener('input', render);
+});
+document.getElementById('copy-btn').addEventListener('click', copySignature);
+document.getElementById('copy-html-btn').addEventListener('click', copyHtmlSource);
+
+render();
+</script>
+</body>
+</html>
