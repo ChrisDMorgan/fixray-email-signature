@@ -138,7 +138,7 @@
 <div class="wrap">
 
 <h1>Fixray Email Signature Generator</h1>
-<p class="sub">Fill in your details, preview, copy — paste into Gmail. Gmail-safe HTML: tables + inline styles + data-URI mark.</p>
+<p class="sub">Fill in your details, preview, copy — paste into Gmail. Gmail-safe HTML: tables + inline styles + CSS-rendered mark.</p>
 <span class="tag">V3 · PRIORITY STRIPE · TICKET STUB</span>
 
 <div class="grid">
@@ -211,14 +211,13 @@
   </div>
 </div>
 
-<div class="footer">Fixray · V3 (2026-04-20)</div>
+<div class="footer">Fixray · brand/production/email-signature-generator.html · V3 (2026-04-20)</div>
 
 </div>
 
 <script>
-// White Fixray mark, 64x64 PNG, base64 encoded. Sits on the purple priority stripe.
-const WHITE_MARK_B64 = 'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFWUlEQVR42u2a24tVVRzHP999xtHRmMpJTS3LSylqZZjdKAqVSkjNkCS6QPQSRP9A770GvQXdqEhIKYg0GcqERLtYGQxpiZZa1iTpQ2Nq08z59uBv52pzZppxbmfOnB9s9jlrr732+n5/173WhrrUpS51qUtd6lKXUS62ZVtjEXhmu5QSMVaBT7F9Sc2TEMCz5P/Vtp+z/Yvtw0FEdbnDYEyoAvDFtl+wfdzn5UjVEZBO5EImZbtUGOMm2y/Z/j0BfsD2s7ZbqsoF8onYnmx7cl8nFxosFdrusv1GovGy7S9sP2X74qoLgrkZBvgf45jcm3kWgYf2V9l+23a77S7bHbZbbW+w3Zj0bag2v8/ivDAx1YXptV6AN9leb/td28ds/xlBbpPt+3pzkf5KwzBwUQa6k99FF8kkdQPdkcbWAOuBG4BJwAngfeBNSbtS4EA57qWaCQAoaiizjaRyAJ8KrAvw84EJQDuwEdgoqa1I2ECBDzcBKfBMUlcAuhJYC6wC5gAl4CiwDdgs6XDqMjlhgzmh4SRAwGlJZdvzgfuB5cDMuP49sBV4T9LxxMwdwIdEGoYhECqObmCJ7QeBFcBlERPagC3ANkl/DKZ/jwgB4acKzdl2rr0MeCbOZeAL4ANgh6Szww180AnIgYe52raj7aXAw4VAuBNoBXZL8kgBHzQCKgCfCNwa/j0bmJ50f17S1sFOZSNCQAXgzcBtwB3AVUAT8BtwCLgzIvz+uK8kqWskgfeUn/tc3yfm2xLAbwZmAOOAk8BXYeoXAQfj9sWS9kcqLFMF0jAA4NOBW4AlwNQIbr8CXwI7JZ3MFyrSYaptfaGhL8AlOQE+C1gGLAIujW5HgD3AHkkd+ctJpL4yVSwN/QA+B1gKzAOaQ5sHQ+PfSPoryf2O4GbbjCoCUuABZm6Y+WxgYmj1O+BrYF8eyPKqLTFzJTUBxbbkDa6vcehfZQwpAQF8XGh6cRLYzka5ulfS0Qr3FSN6Tkxn0tYZILqrJS40FLQ/HrgGWBClKkBnpLM24CegHJE/S7Vd4ZwF0BnJI2baPh3PrXSvehivBLRLOjXoaTA3+QB/bwDPJzcuJtsVk5gU5yzaG+J//jsrtBEZ4oEYsxU4BYyPPqXCOKUK4ypc7xiwWtLJfM5D4QKlAFsO8H9H2/hCX/VwZIXDBR/PeujX25H3H5I1P6WBL6q55UBLXG8D9gcBvZl7Ty5QDpfaEe0rInOUCuT0NlauqGOSTg2m9v/zkISEJmAlcEVYw25J3w6gZJ4LHIi/10o6VJVpMMBL0hnbraGtecBK282SPk0WM/uigdwCGpO2xvxd4AIKpKFPgwkJnUFCF7AQuN32REnbU2v5H83ntYSLIGyXq+VdIOuhDpCksqQPgb2h8WW119gu5X2oAckqBobz5a8kfQLsjpx+HfCQ7Qm1QkLWa4Q8bw2fAR9FWpwPPBpxwcVNjpoiICEhk7Q3Fi/PxILHE7anxCpvVrMEBAnlIGEfsBnoAC4HnrQ9azST0OdJJyT8ALzFuS2rliBhwWgloV8TTkg4BrwW9XlzuMPS0UhCvyebkHACeCUWPZuAx2zfnZCgmiSgQEIH8HK8MzQCG2yvrpYiZ8gISEhQ7Oq8Cnwe4621/UiyQJLVJAGFOqFb0uvA9qB0dQwV5k0dy23EqI7XpVhJyVd6Cdp3nCNddv85nA4dmfU=';
-const WHITE_MARK_SRC = 'data:image/png;base64,' + WHITE_MARK_B64;
+// Mark rendered as white "F" in purple stripe — no image file, bulletproof across Gmail/Outlook/Apple Mail.
+// Data URIs get stripped by Gmail signatures; externally-hosted images add fragility and hosting cost.
 
 const escapeHtml = (s) => String(s ?? '')
   .replace(/&/g, '&amp;')
@@ -259,8 +258,8 @@ function buildSignature({ name, title, email, phone, category, ticketid }) {
   // cellpadding/cellspacing/border attributes set for Gmail reliability.
   return `<table cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse:collapse;border-spacing:0;max-width:540px;font-family:${SANS};">
   <tr>
-    <td width="44" valign="top" align="center" bgcolor="#7C3AED" style="width:44px;background-color:#7C3AED;padding:14px 0;border-top-left-radius:8px;border-bottom-left-radius:8px;">
-      <img src="${WHITE_MARK_SRC}" width="26" height="26" alt="Fixray" style="display:block;margin:0 auto;border:0;outline:0;text-decoration:none;-ms-interpolation-mode:bicubic;">
+    <td width="44" valign="middle" align="center" bgcolor="#7C3AED" style="width:44px;background-color:#7C3AED;padding:14px 0;border-top-left-radius:8px;border-bottom-left-radius:8px;font-family:${SANS};">
+      <div style="font-family:${SANS};font-size:22px;font-weight:700;color:#FFFFFF;line-height:1;letter-spacing:-0.5px;text-align:center;">F</div>
     </td>
     <td valign="top" bgcolor="#FFFFFF" style="background-color:#FFFFFF;padding:14px 18px;border-top:1px solid #E5E7EB;border-right:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;border-top-right-radius:8px;border-bottom-right-radius:8px;font-family:${SANS};">
       <div style="font-family:${MONO};font-size:10px;color:#6B7280;letter-spacing:0.4px;margin-bottom:8px;line-height:1.4;">
