@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="2.5 8 50 50" width="128" height="128">
+  <!-- Fixray Mark — White, tight-cropped square for the email-signature stripe.
+       Geometry is identical to brand/production/fixray-mark-white.svg; only the
+       viewBox is cropped to the artwork bounds so the mark optically centres. -->
+  <defs>
+    <linearGradient id="rayW" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(30, 32)">
+    <path d="M-26 2 L21 -20 M-26 2 L12 2 M-26 2 L-4 22" stroke="url(#rayW)" stroke-width="2.25" stroke-linecap="round" fill="none"/>
+    <line x1="-4" y1="-16" x2="-4" y2="22" stroke="#FFFFFF" stroke-width="2.25" stroke-linecap="round"/>
+  </g>
+</svg>

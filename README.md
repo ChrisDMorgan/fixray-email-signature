@@ -14,13 +14,20 @@ Gmail-safe email signature builder for the Fixray team. Priority-stripe / ticket
 ## Design
 
 - Single HTML file, no dependencies.
-- Fixray mark embedded as a PNG data URI (Gmail-safe).
+- Fixray mark served as a hosted PNG from this Pages site (`mark-white.png`). Gmail strips data
+  URIs out of signatures, so the mark has to load from a stable public URL — keep that file at
+  its current path or every signature already installed breaks.
 - Table-based layout with inline styles (Gmail strips `<style>` blocks).
 - System font stack (Inter doesn't load in Gmail — falls back cleanly to `-apple-system` / Segoe UI / Helvetica / Arial).
 
 ## Editing
 
 The entire generator lives in `index.html`. Edit locally, commit to `main`, GitHub Pages redeploys automatically.
+
+`mark-white.png` is rendered from `mark-white.svg`, which is `brand/production/fixray-mark-white.svg`
+from the Fixray OS workspace with its viewBox cropped to the artwork bounds so the mark optically
+centres in the 44px stripe. To regenerate at a different size, re-render the SVG on a transparent
+background — don't hand-edit the PNG.
 
 ---
 

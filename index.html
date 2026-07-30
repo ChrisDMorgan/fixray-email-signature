@@ -138,7 +138,7 @@
 <div class="wrap">
 
 <h1>Fixray Email Signature Generator</h1>
-<p class="sub">Fill in your details, preview, copy — paste into Gmail. Gmail-safe HTML: tables + inline styles + CSS-rendered mark.</p>
+<p class="sub">Fill in your details, preview, copy — paste into Gmail. Gmail-safe HTML: tables + inline styles + hosted Fixray mark.</p>
 <span class="tag">V3 · PRIORITY STRIPE · TICKET STUB</span>
 
 <div class="grid">
@@ -207,7 +207,8 @@
   </ol>
   <div class="note">
     <strong>Mobile:</strong> Gmail's iOS/Android apps have their own signature field (Settings → your account → Signature settings). They don't sync with the web signature and only accept plain text — so use a short plain-text fallback there.<br><br>
-    <strong>Testing:</strong> send yourself a test from web Gmail to a different address before rolling out to the team. Check it lands correctly in (1) Gmail web inbox, (2) Gmail mobile preview.
+    <strong>Testing:</strong> send yourself a test from web Gmail to a different address before rolling out to the team. Check it lands correctly in (1) Gmail web inbox, (2) Gmail mobile preview.<br><br>
+    <strong>The logo:</strong> it's a hosted image (Gmail strips embedded images from signatures, so it has to load from a URL). Recipients who block images see the word <em>Fixray</em> on the purple stripe instead — everything else still renders.
   </div>
 </div>
 
@@ -216,8 +217,10 @@
 </div>
 
 <script>
-// Mark rendered as white "F" in purple stripe — no image file, bulletproof across Gmail/Outlook/Apple Mail.
-// Data URIs get stripped by Gmail signatures; externally-hosted images add fragility and hosting cost.
+// Mark = the real Fixray logo, served as a hosted PNG from this GitHub Pages site.
+// Data URIs get stripped by Gmail signatures, so the file has to live at a stable public URL.
+// Source of truth: mark-white.svg -> mark-white.png (128px, white on transparent), displayed at 30px.
+const MARK_URL = 'https://chrisdmorgan.github.io/fixray-email-signature/mark-white.png';
 
 const escapeHtml = (s) => String(s ?? '')
   .replace(/&/g, '&amp;')
@@ -258,8 +261,8 @@ function buildSignature({ name, title, email, phone, category, ticketid }) {
   // cellpadding/cellspacing/border attributes set for Gmail reliability.
   return `<table cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse:collapse;border-spacing:0;max-width:540px;font-family:${SANS};">
   <tr>
-    <td width="44" valign="middle" align="center" bgcolor="#7C3AED" style="width:44px;background-color:#7C3AED;padding:14px 0;border-top-left-radius:8px;border-bottom-left-radius:8px;font-family:${SANS};">
-      <div style="font-family:${SANS};font-size:22px;font-weight:700;color:#FFFFFF;line-height:1;letter-spacing:-0.5px;text-align:center;">F</div>
+    <td width="44" valign="top" align="center" bgcolor="#7C3AED" style="width:44px;background-color:#7C3AED;padding:13px 0 14px;border-top-left-radius:8px;border-bottom-left-radius:8px;font-family:${SANS};">
+      <img src="${MARK_URL}" width="30" height="30" alt="Fixray" style="display:block;width:30px;height:30px;border:0;outline:none;text-decoration:none;">
     </td>
     <td valign="top" bgcolor="#FFFFFF" style="background-color:#FFFFFF;padding:14px 18px;border-top:1px solid #E5E7EB;border-right:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;border-top-right-radius:8px;border-bottom-right-radius:8px;font-family:${SANS};">
       <div style="font-family:${MONO};font-size:10px;color:#6B7280;letter-spacing:0.4px;margin-bottom:8px;line-height:1.4;">
